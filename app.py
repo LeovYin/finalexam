@@ -53,17 +53,16 @@ def indexPart2():
     return render_template('part2.html', water_list=water_list, totalYear=totalYear, day=day,
                            number=number, level=level)
 
+
 @app.route('/part1')
 def indexPart1():
     return render_template('part1.html')
 
+
 @app.route('/part3')
 def indexPart3():
-    # 获取分页参数
-    page = request.args.get('page', 1, type=int)
-    pageSize = 15  # 每页显示的数据条数
-    totalPage = ceil(len(water_list) / pageSize)  # 总页数
     return render_template('part3.html', water_list=water_list)
+
 
 @app.route('/register', methods=['post', 'GET'])
 def register():
