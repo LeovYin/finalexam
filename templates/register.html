@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>注册页面</title>
+  <script src="../static/static/js/script.js"></script>
+  <link rel="stylesheet" href="../static/static/css/newStyle.css"/>
+</head>
+
+<body>
+<div class="container">
+  <h1>鱼卵漂浮信息及预测平台</h1>
+  <form method="post" action="{{ url_for('register') }}">
+      <p>{{ '请输入用户名和密码进行注册' if not register_failure else '' }}</p>
+      {% with messages = get_flashed_messages(category_filter=['error']) %}
+          {% if messages %}
+              <p style="color: red;">{{ messages[0] }}</p>
+          {% endif %}
+      {% endwith %}
+    <div class="form-control">
+      <input type="text" required name="username">
+      <label>请输入账号</label>
+    </div>
+    <div class="form-control">
+      <input type="password" required name="password">
+      <label>密码</label>
+    </div>
+    <div class="ad-other-feilds">
+      <div class="ad-checkbox">
+
+      </div>
+    </div>
+    <button class="btn ad-btn ad-login-member ">注册</button>
+    <p class="text">已有账号，返回<a href="login">登录</a></p>
+
+  </form>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>查看全部数据</title>
+    <script type="text/javascript" src="../static/js/jquery.js"></script>
+    <script type="text/javascript" src="../static/js/area_echarts.js"></script>
+    <link rel="stylesheet" href="../static/css/comon0.css">
+    <link rel="stylesheet" href="../static/static/css/header.css">
+</head>
+<script>
+    $(document).ready(function () {
+        let whei = $(window).width()
+        $("html").css({ fontSize: whei / 20 })
+        $(window).resize(function () {
+            let whei = $(window).width()
+            $("html").css({ fontSize: whei / 20 })
+        });
+    });
+</script>
+<script type="text/javascript" src="../static/js/echarts.min.js"></script>
+
+
+<body>
+<div class="loading">
+    <div class="loadbox"> <img src="../static/images/loading.gif"> 页面加载中... </div>
+</div>
+<div class="canvas" style="opacity: .2">
+    <iframe frameborder="0" src="../static/js/index.html" style="width: 100%; height: 100%"></iframe>
+</div>
+<div class="head">
+    <div class="sidebar" id="sidebar">
+        <a href="part2">查看全部数据</a>
+        <a href="part1">漂浮模型预测</a>
+        <a href="part3">搜索数据年份</a>
+    </div>
+    <div class="sidebar-toggle" id="sidebar-toggle">☰ 全部功能</div>
+
+    <script>
+        document.getElementById('sidebar-toggle').addEventListener('mouseenter', function() {
+            this.classList.add('hidden');
+            document.getElementById('sidebar').style.left = '0';
+        });
+
+        document.getElementById('sidebar').addEventListener('mouseleave', function() {
+            document.getElementById('sidebar').style.left = '-250px';
+            document.getElementById('sidebar-toggle').classList.remove('hidden');
+        });
+    </script>
+    <h1>查看全部数据</h1>
+    <div class="weather"><!--<img src="images/weather.png"><span>多云转小雨</span>--><span id="showTime"></span></div>
+    <script>
+        let t = null;
+        t = setTimeout(time, 1000);//開始运行
+        function time() {
+            clearTimeout(t);//清除定时器
+            dt = new Date();
+            let y = dt.getFullYear();
+            let mt = dt.getMonth() + 1;
+            let day = dt.getDate();
+            let h = dt.getHours();//获取时
+            let m = dt.getMinutes();//获取分
+            let s = dt.getSeconds();//获取秒
+            document.getElementById("showTime").innerHTML = y + "年" + mt + "月" + day + "日" + h + "时" + m + "分" + s + "秒";
+            t = setTimeout(time, 1000); //设定定时器，循环运行
+        }
+    </script>
+</div>
+<div class="mainbox">
+    <ul class="clearfix">
+        <li>
+            <div class="boxall">
+                <div class="alltitle">数据总览</div>
+                <div class="sycm">
+                    <ul class="clearfix">
+                        <li>
+                            <h2>{{ water_list|length }}</h2>
+                            <span >收集数据个数</span>
+                        </li>
+                        <li>
+                            <h2>&nbsp;</h2>
+                            <span>&nbsp;</span>
+                        </li>
+                        <li>
+                            <h2>{{ totalYear }}</h2>
+                            <span>收集数据年份</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="boxfoot"></div>
+            </div>
+
+            <div class="boxall">
+                <div class="alltitle alltitle2">
+                    环境监测
+
+                </div>
+
+                <ul class="tabnav">
+                    <li style=" height: auto;">
+                        <div class="gdhead">
+                            <span>年份</span> <span>日期</span><span>水位</span><span>流量</span> <span>流速 </span>
+                            <span>水温</span> <span>鱼卵数</span>
+                        </div>
+                        <div class="scrollDiv" style=" height:5.9rem">
+
+                            <ul class="smjl">
+                                {% for water in water_list %}
+                                <li>
+                                    <span>{{ water.year }}</span>
+                                    <span>{{ water.date }}</span>
+                                    <span>{{ water.level }}</span>
+                                    <span>{{ water.traffic }}</span>
+                                    <span>{{ water.flow_rate }}</span>
+                                    <span>{{ water.water_temperature }}</span>
+                                    <span>{{ water.number }}</span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </li>
+
+                </ul>
+
+                <div class="boxfoot"></div>
+            </div>
+
+
+
+        </li>
+        <li>
+
+            <div class="map">
+                <div class="map1"><img src="../static/images/lbx.png"></div>
+                <div class="map2"><img src="../static/images/jt.png"></div>
+                <div class="map3"><img src="../static/images/map.png"></div>
+                <div class="map4" id="map_1">
+
+                </div>
+            </div>
+            <div class="boxall">
+                <div class="alltitle">&nbsp;</div>
+                <div class="allnav" style="height: 1.86rem; " id="echart4">
+
+                </div>
+                <div class="boxfoot"></div>
+
+            </div>
+        </li>
+        <li>
+
+
+            <div class="boxall" style="height: 9.07rem">
+
+
+
+                <div class=" alltitle2">鱼卵数-水位(蓝-红)
+
+                </div>
+                <div class="allnav2" id="echart21" style="height: 22%"></div>
+
+                <div class=" alltitle2">鱼卵数-流量(蓝-红)
+                </div>
+                <div class="allnav2" id="echart22" style="height: 22%"></div>
+
+                <div class=" alltitle2">鱼卵数-水温(蓝-红)</div>
+                <div class="allnav2" style="height: 22%">
+                    <div class="feng" id="feng01" style="width:100% ; "></div>
+
+                </div>
+
+                <div class="boxfoot"></div>
+            </div>
+
+            <div class="boxfoot"></div>
+        </li>
+    </ul>
+</div>
+<div class="back"></div>
+<script th:inline="javascript" >
+    $(window).load(function () {
+        $(".loading").fadeOut()
+    });
+
+    $(function () {
+        echarts_21({{ day|tojson }},{{ number|tojson }},{{ level|tojson }});
+        echarts_22();
+        echarts_23();
+        echarts_4();
+
+        function echarts_21(dayData,numberData,levelData) {
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('echart21'));
+            option1 = {
+
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { type: 'shadow' }
+                },
+                grid: {
+                    left: '0%',
+                    top: '10px',
+                    right: '0%',
+                    bottom: '0rem',
+                    containLabel: true
+                },
+                /*设置x轴*/
+                xAxis: [{
+                    type: 'category',
+                    {#data: /*[[${day}]]*/ ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'] ,#}
+                    data: dayData,
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: "rgba(255,255,255,.1)",
+                            width: 1,
+                            type: "solid"
+                        },
+                    },
+
+                    axisTick: {
+                        show: false,
+                    },
+                    axisLabel: {
+                        interval: 0,
+                        // rotate:50,
+                        show: true,
+                        splitNumber: 15,
+                        textStyle: {
+                            color: "rgba(255,255,255,.6)",
+                            fontSize: '12',
+                        },
+                    },
+                }],
+                /*设置y轴*/
+                yAxis: [{
+                    type: 'value',
+                    axisLabel: {
+                        //formatter: '{value} %'
+                        show: true,
+                        textStyle: {
+                            color: "rgba(255,255,255,.6)",
+                            fontSize: '12',
+                        },
+                    },
+                    axisTick: {
+                        show: false,
+                    },
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: "rgba(255,255,255,.1	)",
+                            width: 1,
+                            type: "solid"
+                        },
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: "rgba(255,255,255,.1)",
+                        }
+                    }
+                }],
+                series: [
+                    {
+                        type: 'line',
+                        {#data:/*[[${number}]]*/ [100, 86, 30, 72, 72, 51, 10, 86, 13, 72],#}
+                        data: numberData,
+                        itemStyle: {
+                            normal: {
+                                color: '#37a3ff',
+                                opacity: 1,
+                                borderRadius: 3,
+                            }
+                        }
+                    },
+                    {
+                        type: 'line',
+                        {#data: /*[[${level}]]*/ [50, 60, 70, 80, 90, 100, 110, 120, 130, 140], // 添加第二条线的数据#}
+                        data: levelData,
+                        itemStyle: {
+                            normal: {
+                                color: '#ff37a3', // 第二条线的颜色
+                                opacity: 1,
+                                borderRadius: 3,
+                            }
+                        }
+                    }
+                ]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option1);
+            window.addEventListener("resize", function () {
+                myChart.resize();
+            });
+
+
+        }
+        function echarts_22() {
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('echart22'));
+
+            option1 = {
+                //  backgroundColor: '#00265f',
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { type: 'shadow' }
+                },
+                grid: {
+                    left: '0%',
+                    top: '0.3125rem',
+                    right: '0%',
+                    bottom: '0rem',
+                    containLabel: true
+                },
+                xAxis: [{
+                    type: 'category',
+                    data: /*[[${day}]]*/  ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: "rgba(255,255,255,.1)",
+                            width: 1,
+                            type: "solid"
+                        },
+                    },
+
+                    axisTick: {
+                        show: false,
+                    },
+                    axisLabel: {
+                        interval: 0,
+                        // rotate:50,
+                        show: true,
+                        splitNumber: 15,
+                        textStyle: {
+                            color: "rgba(255,255,255,.6)",
+                            fontSize: '12',
+                        },
+                    },
+                }],
+                yAxis: [{
+
+                    type: 'value',
+                    axisLabel: {
+                        //formatter: '{value} %'
+                        show: true,
+                        textStyle: {
+                            color: "rgba(255,255,255,.6)",
+                            fontSize: '12',
+                        },
+                    },
+                    axisTick: {
+                        show: false,
+                    },
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: "rgba(255,255,255,.1	)",
+                            width: 1,
+                            type: "solid"
+                        },
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: "rgba(255,255,255,.1)",
+                        }
+                    }
+                }],
+                series: [
+                    {
+                        type: 'line',
+                        data:/*[[${number}]]*/ [100, 86, 30, 72, 72, 51, 10, 86, 13, 72],
+                        itemStyle: {
+                            normal: {
+                                color: '#37a3ff',
+                                opacity: 1,
+                                borderRadius: 3,
+                            }
+                        }
+                    },
+                    {
+                        type: 'line',
+                        data:/*[[${traffic}]]*/ [50, 60, 70, 80, 90, 100, 110, 120, 130, 140], // 添加第二条线的数据
+                        itemStyle: {
+                            normal: {
+                                color: '#ff37a3', // 第二条线的颜色
+                                opacity: 1,
+                                borderRadius: 3,
+                            }
+                        }
+                    }
+                ]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option1);
+            window.addEventListener("resize", function () {
+                myChart.resize();
+            });
+
+        }
+
+        function echarts_23() {
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('feng01'));
+
+            option1 = {
+                //  backgroundColor: '#00265f',
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { type: 'shadow' }
+                },
+                grid: {
+                    left: '0%',
+                    top: '0.3125rem',
+                    right: '0%',
+                    bottom: '0rem',
+                    containLabel: true
+                },
+                xAxis: [{
+                    type: 'category',
+                    data: /*[[${day}]]*/ ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: "rgba(255,255,255,.1)",
+                            width: 1,
+                            type: "solid"
+                        },
+                    },
+
+                    axisTick: {
+                        show: false,
+                    },
+                    axisLabel: {
+                        interval: 0,
+                        // rotate:50,
+                        show: true,
+                        splitNumber: 15,
+                        textStyle: {
+                            color: "rgba(255,255,255,.6)",
+                            fontSize: '12',
+                        },
+                    },
+                }],
+                yAxis: [{
+
+                    type: 'value',
+                    axisLabel: {
+                        //formatter: '{value} %'
+                        show: true,
+                        textStyle: {
+                            color: "rgba(255,255,255,.6)",
+                            fontSize: '12',
+                        },
+                    },
+                    axisTick: {
+                        show: false,
+                    },
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: "rgba(255,255,255,.1	)",
+                            width: 1,
+                            type: "solid"
+                        },
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: "rgba(255,255,255,.1)",
+                        }
+                    }
+                }],
+                series: [
+                    {
+                        type: 'line',
+                        data: /*[[${number}]]*/ [100, 86, 30, 72, 72, 51, 10, 86, 13, 72],
+                        itemStyle: {
+                            normal: {
+                                color: '#37a3ff',
+                                opacity: 1,
+                                borderRadius: 3,
+                            }
+                        }
+                    },
+                    {
+                        type: 'line',
+                        data: /*[[${temperature}]]*/ [50, 60, 70, 80, 90, 100, 110, 120, 130, 140], // 添加第二条线的数据
+                        itemStyle: {
+                            normal: {
+                                color: '#ff37a3', // 第二条线的颜色
+                                opacity: 1,
+                                borderRadius: 3,
+                            }
+                        }
+                    }
+                ]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option1);
+            window.addEventListener("resize", function () {
+                myChart.resize();
+            });
+
+        }
+
+        function echarts_4() {
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('echart4'));
+
+            option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { type: 'shadow' },
+                }, "grid": {
+                    "top": "20%",
+                    "right": "40",
+                    "bottom": "20",
+                    "left": "50",
+                },
+                legend: {
+                    data: ['水位', '流量', '流速', '水温'],
+                    right: 'center', width: '100%',
+                    textStyle: {
+                        color: "rgba(255,255,255,.5)"
+                    },
+                    itemWidth: 12,
+                    itemHeight: 10,
+                },
+
+
+
+                "xAxis": [
+                    {
+                        "type": "category",
+                        data: /*[[${day}]]*/ ['2016', '2017', '2018', '2019'],
+                        axisLine: { show: false, },
+                        axisLabel: {
+                            textStyle: {
+                                fontSize: 14,
+                                color: "rgba(255,255,255,.5)",
+                            },
+                        },
+
+                    },
+                ],
+                "yAxis": [
+                    {
+
+                        "type": "value",
+                        // "name": "单位万",
+
+                        axisTick: { show: false },
+                        splitLine: { show: false, },
+                        axisLine: { show: false, },
+                        "axisLabel": {
+                            "show": true,
+                            fontSize: 14,
+                            color: "rgba(255,255,255,.5)"
+
+                        },
+                        axisLine: {
+                            min: 0,
+                            max: 10,
+                            show: false
+                        },//左线色
+
+                    },
+                    {
+                        "type": "value",
+                        //"name": "增速",
+                        "show": true,
+                        "axisLabel": {
+                            formatter: "{value}",
+                            fontSize: 14,
+                            color: "rgba(255,255,255,.5)"
+                        },
+                        axisTick: { show: false },
+                        splitNumber: 3,
+                        axisLine: { show: false },//右线色
+                        splitLine: { lineStyle: { color: 'rgba(255,255,255,.05)' } },//x轴线
+                    },
+                ],
+                "series": [
+
+                    {
+                        "name": "水位",
+                        "type": "bar",
+                        "data":/*[[${level}]]*/  [36.6, 38.80, 40.84, 41.60],
+                        "barWidth": "10%",
+                        "itemStyle": {
+                            "normal": {
+                                barBorderRadius: 15,
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: '#8bd46e'
+                                }, {
+                                    offset: 1,
+                                    color: '#09bcb7'
+                                }]),
+                            }
+                        },
+                        "barGap": "0.2"
+                    },
+                    {
+                        "name": "流量",
+                        "type": "bar",
+                        "data": /*[[${traffic}]]*/ [14.8, 14.1, 15, 16.30],
+                        "barWidth": "10%",
+                        "itemStyle": {
+                            "normal": {
+                                barBorderRadius: 15,
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: '#248ff7'
+                                }, {
+                                    offset: 1,
+                                    color: '#6851f1'
+                                }]),
+                            }
+                        },
+                        "barGap": "0.2"
+                    },
+                    {
+                        "name": "流速",
+                        "type": "bar",
+                        "data": /*[[${flow}]]*/  [9.2, 9.1, 9.85, 8.9],
+                        "barWidth": "10%",
+                        "itemStyle": {
+                            "normal": {
+                                barBorderRadius: 15,
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: '#fccb05'
+                                }, {
+                                    offset: 1,
+                                    color: '#f5804d'
+                                }]),
+                            }
+                        },
+                        "barGap": "0.2"
+                    }
+                    ,
+                    {
+                        "name": "水温",
+                        "type": "line",
+                        "yAxisIndex": 1,
+
+                        "data":/*[[${temperature}]]*/ [3, 1, 5, 2.3],
+                        lineStyle: {
+                            normal: {
+                                width: 2
+                            },
+                        },
+                        "itemStyle": {
+                            "normal": {
+                                "color": "#3496f8",
+
+                            }
+                        },
+                        //   "smooth": true,
+                        symbolSize: 0,
+                    }
+                ]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+            window.addEventListener("resize", function () {
+                myChart.resize();
+            });
+        }
+    })
+</script>
+
+<script src="../static/js/jquery.liMarquee.js"></script>
+<script>
+    $(function () {
+    $('.scrollDiv').liMarquee({
+        direction: 'up',
+        scrollamount: 30,
+        runshort: false
+    });
+});
+</script>
+
+</body>
+</html>
