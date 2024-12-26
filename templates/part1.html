@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>漂浮模型预测</title>
+    <script type="text/javascript" src="../static/static/js/jquery.js"></script>
+    <script type="text/javascript" src="../static/static/js/area_echarts.js"></script>
+    <link rel="stylesheet" href="../static/static/css/comon0.css">
+    <link rel="stylesheet" href="../static/static/css/header.css">
+    <link rel="stylesheet" href="../static/static/css/index1.css">
+
+    <style>
+        html {
+            font-size: 16px; /* 设置根元素字体大小 */
+        }
+    </style>
+</head>
+
+<body>
+<div class="head">
+    <div class="sidebar" id="sidebar">
+        <a href="part2">查看全部数据</a>
+        <a href="part1">漂浮模型预测</a>
+        <a href="part3">搜索数据年份</a>
+    </div>
+    <div class="sidebar-toggle" id="sidebar-toggle">☰ 全部功能</div>
+
+    <script>
+        document.getElementById('sidebar-toggle').addEventListener('mouseenter', function() {
+            this.classList.add('hidden');
+            document.getElementById('sidebar').style.left = '0';
+        });
+
+        document.getElementById('sidebar').addEventListener('mouseleave', function() {
+            document.getElementById('sidebar').style.left = '-250px';
+            document.getElementById('sidebar-toggle').classList.remove('hidden');
+        });
+    </script>
+    <h1>漂浮模型预测</h1>
+    <div class="weather"><!--<img src="images/weather.png"><span>多云转小雨</span>--><span id="showTime"></span></div>
+    <script>
+        let t = null;
+        t = setTimeout(time, 1000);//開始运行
+        function time() {
+            clearTimeout(t);//清除定时器
+            dt = new Date();
+            let y = dt.getFullYear();
+            let mt = dt.getMonth() + 1;
+            let day = dt.getDate();
+            let h = dt.getHours();//获取时
+            let m = dt.getMinutes();//获取分
+            let s = dt.getSeconds();//获取秒
+            document.getElementById("showTime").innerHTML = y + "年" + mt + "月" + day + "日" + h + "时" + m + "分" + s + "秒";
+            t = setTimeout(time, 1000); //设定定时器，循环运行
+        }
+    </script>
+</div>
+<div class="canvas" style="opacity: .4">
+    <iframe frameborder="0" src="../static/static/js/index.html" style="width: 100%; height: 100%"></iframe>
+</div>
+<div class="header">
+
+
+</div>
+
+<div class="content">
+    <div style="height: 37.5rem;">
+        <label>
+            <p style="height: 1.25rem; font-size: 1.25rem; position: absolute; top: 45%;">请输入流量、平均流速、水位、水温的大小：</p>
+            <label style="z-index: 999; position: absolute; top: 50%;">
+                <input style="width: 23.75rem; height: 3.75rem; font-size: 1rem; background-color: rgba(88, 84, 84, 0.199); border: 1px solid #ccc; padding: 0.625rem;" type="text" id="input1" placeholder="输入流量的大小">
+                <input style="width: 23.75rem; height: 3.75rem; font-size: 1rem; background-color: rgba(88, 84, 84, 0.199); border: 1px solid #ccc; padding: 0.625rem;" type="text" id="input2" placeholder="输入平均流速的大小">
+                <input style="width: 23.75rem; height: 3.75rem; font-size: 1rem; background-color: rgba(88, 84, 84, 0.199); border: 1px solid #ccc; padding: 0.625rem;" type="text" id="input3" placeholder="输入水位的大小">
+                <input style="width: 23.75rem; height: 3.75rem; font-size: 1rem; background-color: rgba(88, 84, 84, 0.199); border: 1px solid #ccc; padding: 0.625rem;" type="text" id="input4" placeholder="输入水温的大小">
+
+                <script>
+                    function predict() {
+                        let one = parseFloat(document.getElementById("input1").value);
+                        console.log(one);
+                        let two = parseFloat(document.getElementById("input2").value);
+                        let three = parseFloat(document.getElementById("input3").value);
+                        let four = parseFloat(document.getElementById("input4").value);
+                        let result = 4.16e-5 * one + 1.305 * two + 13.95 * three + 5.855 * four - 330.696;
+                        let eResult = Math.exp(result);
+                        let lastResult = eResult / (1 + eResult);
+                        document.getElementById("result").innerText = "预测结果: " + lastResult;
+                        console.log(lastResult);
+                    }
+                </script>
+
+                <button style=" cursor: pointer; width: 7.5rem; height: 3.75rem; font-size: 1rem; background-color: #4c87af52; color: white; border: none; border-radius: 0.3125rem; padding: 0.625rem 1.25rem;" onclick="predict()">预测</button>
+                <span style="position:relative; display: block; align-items: center; font-size: 1.25rem;" id="result"></span>
+
+
+
+            </label>
+        </label>
+    </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录页面</title>
+    <script src="../static/static/js/script.js"></script>
+    <link rel="stylesheet" href="../static/static/css/newStyle.css"/>
+</head>
+
+<body>
+<div class="container">
+    <h1>鱼卵漂浮信息及预测平台</h1>
+    <form method="post"  action="{{ url_for('login') }}">
+        {% if not failure %}
+            <p>请输入用户名和密码进行登录</p>
+        {% endif %}
+        {% if failure %}
+            <p style="color: red;">您的用户名或密码输入有误</p>
+        {% endif %}
+
+        <div class="form-control">
+            <input type="text" required name="username">
+            <label>账号</label>
+        </div>
+        <div class="form-control">
+            <input type="password" required name="password">
+            <label>密码</label>
+        </div>
+        <div class="ad-other-feilds">
+            <div class="ad-checkbox">
+                <label>
+                    <input type="checkbox" name="remember" id="remember" value="true" class="ad-checkbox">
+                    <span>记住我</span>
+                </label>
+            </div>
+        </div>
+        <button class="btn ad-btn ad-login-member ">登录</button>
+        <p class="text">没有账号？<a href="register">注册用户</a></p>
+  </form>
+</div>
+</body>
+</html>

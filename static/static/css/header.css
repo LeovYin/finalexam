@@ -1,0 +1,57 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: rgba(57, 57, 57, 0.5);
+    transition: left 0.3s;
+    z-index: 1000;
+}
+
+.sidebar a {
+    display: block;
+    padding: 16px;
+    text-decoration: none;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: rgba(57, 57, 57, 0.5);
+    ;
+}
+
+.sidebar-toggle {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
+    padding: 10px;
+    background-color: rgba(11, 21, 66);
+    color: white;
+    border-radius: 5px;
+    z-index: 1001;
+    transition: opacity 0.3s;
+}
+
+.sidebar-toggle.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.canvas {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    height: 99%;
+    z-index: 1;
+}
