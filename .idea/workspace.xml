@@ -4,7 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3aa806b-4d48-4324-aade-951db80aac0b" name="更改" comment="24.12.26.2.00" />
+    <list default="true" id="b3aa806b-4d48-4324-aade-951db80aac0b" name="更改" comment="24.12.26.2.00">
+      <change afterPath="$PROJECT_DIR$/dataset/sjj.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/part4.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tool/model_trian/mlp.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tool/model_trian/mlp.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tool/picture_generate/bing.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tool/picture_generate/level.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tool/picture_generate/level_data.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tool/picture_generate/number_data.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tool/picture_generate/rate.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tool/picture_generate/rate_data.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tool/picture_generate/tem_data.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tool/picture_generate/temperture.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tool/picture_generate/traffic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/all_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/all_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/part1.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/part1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/part2.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/part2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/part3.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/part3.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/mysql_connect.py" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,6 +37,7 @@
         <option value="Flask Main" />
         <option value="HTML File" />
         <option value="Python Script" />
+        <option value="Jupyter Notebook" />
       </list>
     </option>
   </component>
@@ -32,6 +54,24 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;history&quot;: [
+    {
+      &quot;assignee&quot;: &quot;LeovYin&quot;
+    }
+  ],
+  &quot;lastFilter&quot;: {
+    &quot;assignee&quot;: &quot;LeovYin&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="832f96ba-f9e5-4c08-9fe0-eac17eb55314" />
+        <option name="url" value="https://github.com/LeovYin/finalexam.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -51,12 +91,15 @@
     &quot;Flask 服务器.Flask (app.py).executor&quot;: &quot;Run&quot;,
     &quot;Flask 服务器.finalexam.executor&quot;: &quot;Run&quot;,
     &quot;Python.all_service.executor&quot;: &quot;Run&quot;,
+    &quot;Python.bing.executor&quot;: &quot;Run&quot;,
+    &quot;Python.check.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mlp.executor&quot;: &quot;Run&quot;,
     &quot;Python.mysql_connect.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/gjy77/Desktop/project/Python/demo/finalexam/static&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/gjy77/Desktop/project/Python/demo/finalexam/tool/picture_generate&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -68,14 +111,17 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\gjy77\Desktop\project\Python\demo\finalexam\tool\picture_generate" />
+      <recent name="C:\Users\gjy77\Desktop\project\Python\demo\finalexam\dataset" />
       <recent name="C:\Users\gjy77\Desktop\project\Python\demo\finalexam\static" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\gjy77\Desktop\project\Python\demo\finalexam\tool" />
+      <recent name="C:\Users\gjy77\Desktop\project\Python\demo\finalexam\tool\picture_generate" />
       <recent name="C:\Users\gjy77\Desktop\project\Python\demo\finalexam\templates" />
     </key>
   </component>
-  <component name="RunManager" selected="Flask 服务器.finalexam">
+  <component name="RunManager" selected="Flask 服务器.Flask (app.py)">
     <configuration name="all_service" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="finalexam" />
       <option name="ENV_FILES" value="" />
@@ -145,7 +191,8 @@
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="C:\Users\gjy77\Desktop\project\Python\demo\finalexam\.venv\Scripts\python.exe" />
+      <option name="SDK_NAME" value="Python 3.12 (finalexam)" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -154,6 +201,12 @@
       <option name="launchJavascriptDebuger" value="false" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Flask 服务器.finalexam" />
+      <item itemvalue="Flask 服务器.Flask (app.py)" />
+      <item itemvalue="Python.all_service" />
+      <item itemvalue="Python.mysql_connect" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Flask 服务器.Flask (app.py)" />
@@ -186,6 +239,16 @@
       <workItem from="1735109285609" duration="17704000" />
       <workItem from="1735183828257" duration="700000" />
       <workItem from="1735191928940" duration="1412000" />
+      <workItem from="1735195032327" duration="362000" />
+      <workItem from="1735195406367" duration="7255000" />
+      <workItem from="1735224048010" duration="3781000" />
+      <workItem from="1735228560727" duration="107000" />
+      <workItem from="1735228770567" duration="3608000" />
+      <workItem from="1735232396150" duration="703000" />
+      <workItem from="1735233879788" duration="234000" />
+      <workItem from="1735234272860" duration="5726000" />
+      <workItem from="1735245993675" duration="718000" />
+      <workItem from="1735246721447" duration="3572000" />
     </task>
     <task id="LOCAL-00001" summary="24.12.26.2.00">
       <option name="closed" value="true" />
@@ -206,9 +269,12 @@
     <option name="LAST_COMMIT_MESSAGE" value="24.12.26.2.00" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/finalexam$all_service.coverage" NAME="all_service 覆盖结果" MODIFIED="1735145376392" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/service" />
+    <SUITE FILE_PATH="coverage/finalexam$all_service.coverage" NAME="all_service 覆盖结果" MODIFIED="1735197997689" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/service" />
+    <SUITE FILE_PATH="coverage/finalexam$check.coverage" NAME="check 覆盖结果" MODIFIED="1735228314083" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tool/predispose" />
     <SUITE FILE_PATH="coverage/finalexam$mysql_connect.coverage" NAME="mysql_connect 覆盖结果" MODIFIED="1735100191131" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/finalexam$Flask__app_py_.coverage" NAME="Flask (app.py) 覆盖结果" MODIFIED="1735182593063" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/finalexam$finalexam.coverage" NAME="finalexam 覆盖结果" MODIFIED="1735193207068" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/finalexam$mlp.coverage" NAME="mlp 覆盖结果" MODIFIED="1735230852835" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tool/model_trian" />
+    <SUITE FILE_PATH="coverage/finalexam$bing.coverage" NAME="bing 覆盖结果" MODIFIED="1735227635388" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tool/picture_generate" />
+    <SUITE FILE_PATH="coverage/finalexam$Flask__app_py_.coverage" NAME="Flask (app.py) 覆盖结果" MODIFIED="1735249560333" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/finalexam$finalexam.coverage" NAME="finalexam 覆盖结果" MODIFIED="1735238223335" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

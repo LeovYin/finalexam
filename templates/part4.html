@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>数据可视化demo</title>
+
+
+    <link href="styles/common.css" rel="stylesheet">
+    <link href="styles/bootstrap.min.css" rel="stylesheet">
+    <link href="styles/bootstrap-table.css" rel="stylesheet">
+    <link href="styles/pagination.css" rel="stylesheet">
+    <script src="scripts/Plugin/jquery-3.3.1.min.js"></script>
+    <script src="scripts/Plugin/echarts.min.js"></script>
+
+    <script src="scripts/common.js"></script>
+    <link rel="stylesheet" href="static/css/header.css">
+    <link rel="stylesheet" href="static/css/search.css">
+    <script src="scripts/chronic.js"></script>
+
+</head>
+
+<body class="body">
+<!--顶部-->
+
+<!-- <div class="canvas" style="opacity: .2">
+    <iframe frameborder="0" src="js/index.html" style="width: 100%; height: 100%" z-index: 1;></iframe>
+</div> -->
+
+<!--内容部分-->
+
+<div >
+    <form class="search-container">
+        <input type="text" class="search-input" placeholder="搜索..." name="year">
+        <button class="search-button" type="submit">搜索</button>
+    </form>   </div>
+
+<div class="con left" style="width: 100%; height: 100vh; margin-left: 0%;margin-bottom: 0px;">
+
+
+    <div class="head">
+        <div class="sidebar" id="sidebar" style="z-index: 9999999">
+            <a href="part2">查看全部数据</a>
+            <a href="part1">漂浮模型预测</a>
+            <a href="part3">搜索数据年份</a>
+        </div>
+        <div class="sidebar-toggle" id="sidebar-toggle" >☰ 全部功能</div>
+
+        <script>
+            document.getElementById('sidebar-toggle').addEventListener('mouseenter', function () {
+                this.classList.add('hidden');
+                document.getElementById('sidebar').style.left = '0';
+            });
+
+            document.getElementById('sidebar').addEventListener('mouseleave', function () {
+                document.getElementById('sidebar').style.left = '-250px';
+                document.getElementById('sidebar-toggle').classList.remove('hidden');
+            });
+        </script>
+        <h1 >历史数据</h1>
+
+    </div>
+
+
+    <div class="div_any_child">
+
+        <div class="table_p" style="height: 100%;margin-top: 0px;">
+            <table>
+                <thead>
+                <tr>
+                    <th>年份</th>
+                    <th>日期</th>
+                    <th>水位</th>
+                    <th>流量</th>
+                    <th>流速</th>
+                    <th>水温</th>
+                    <th>鱼卵数</th>
+
+                </tr>
+                </thead>
+                <tbody id="data-container">
+                <!-- 数据将在这里动态加载 -->
+                </tbody>
+            </table>
+        </div>
+        <div class="box">
+            <div id="pagination" class="page fl"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var pageSize = 15; // 每页显示的数据条数
+        var currentPage = 1; // 当前页码
+        var totalPage = 0; // 总页数
+
+        // 分页组件的构造函数
+        function Pagination(ele, options) {
+            this.ele = ele;
+            this.defaults = {
+                currentPage: 1,
+                totalPage: 10,
+                isShow: true,
+                count: 5,
+                homePageText: "首页",
+                endPageText: "尾页",
+                prevPageText: "上一页",
+                nextPageText: "下一页",
+                callback: function() {}
+            };
+            this.opts = Object.assign({}, this.defaults, options);
+            this.current = this.opts.currentPage;
+            this.total = this.opts.totalPage;
+            this.init();
+        }
+
+        Pagination.prototype = {
+            init: function() {
+                this.render();
+                this.eventBind();
+            },
+            render: function() {
+                var opts = this.opts;
+                var current = this.current;
+                var total = this.total;
+                var pagesTpl = this.getPagesTpl();
+                this.ele.innerHTML = "<div class='ui-pagination-container'>" + this.homePage + this.prevPage + pagesTpl + this.nextPage + this.endPage + "</div>";
+            },
+            checkPage: function() {
+                var opts = this.opts;
+                var total = this.total;
+                var current = this.current;
+                if (!opts.isShow) {
+                    this.homePage = this.endPage = "";
+                }
+                if (current === 1) {
+                    this.homePage = this.prevPage = "";
+                }
+                if (current === total) {
+                    this.endPage = this.nextPage = "";
+                }
+                if (total <= 1) {
+                    this.isRender = false;
+                }
+            },
+            getPagesTpl: function() {
+                var opts = this.opts;
+                var total = this.total;
+                var current = this.current;
+                var html = "";
+                if (total <= opts.count) {
+                    for (var i = 1; i <= total; i++) {
+                        html += i === current ? '<a href="javascript:void(0);" class="ui-pagination-page-item active" data-current="' + i + '">' + i + "</a>" : '<a href="javascript:void(0);" class="ui-pagination-page-item" data-current="' + i + '">' + i + "</a>";
+                    }
+                } else {
+                    var half = Math.floor(opts.count / 2);
+                    var start = current - half;
+                    var end = current + half;
+                    if (start < 1) {
+                        start = 1;
+                        end = opts.count;
+                    }
+                    if (end > total) {
+                        end = total;
+                        start = total - opts.count + 1;
+                    }
+                    for (var i = start; i <= end; i++) {
+                        html += i === current ? '<a href="javascript:void(0);" class="ui-pagination-page-item active" data-current="' + i + '">' + i + "</a>" : '<a href="javascript:void(0);" class="ui-pagination-page-item" data-current="' + i + '">' + i + "</a>";
+                    }
+                }
+                return html;
+            },
+            setPage: function(current, total) {
+                this.current = current;
+                this.total = total;
+                this.render();
+            },
+            getPage: function() {
+                return { current: this.current, total: this.total };
+            },
+            eventBind: function() {
+                var that = this;
+                var callback = this.opts.callback;
+                this.ele.addEventListener('click', function(e) {
+                    var target = e.target;
+                    if (target.classList.contains('ui-pagination-page-item')) {
+                        var current = parseInt(target.getAttribute('data-current'), 10);
+                        if (that.current !== current) {
+                            that.current = current;
+                            that.render();
+                            if (typeof callback === 'function') {
+                                callback(current);
+                            }
+                        }
+                    }
+                });
+            }
+        };
+
+        // 分页函数
+        function paginateData(page, pageSize) {
+            $.getJSON('/paginate', { page: page }, function(response) {
+                renderTable(response);
+                totalPage = Math.ceil(response.total / pageSize);
+                if (pagination) {
+                    pagination.setPage(page, totalPage);
+                }
+            });
+        }
+
+        // 渲染表格
+        function renderTable(data) {
+            var html = '';
+            data.forEach(function (item) {
+                html += '<tr>';
+                html += '<td>' + item.year + '</td>';
+                html += '<td>' + item.date + '</td>';
+                html += '<td>' + item.level + '</td>';
+                html += '<td>' + item.traffic + '</td>';
+                html += '<td>' + item.flow_rate + '</td>';
+                html += '<td>' + item.water_temperature + '</td>';
+                html += '<td>' + item.number + '</td>';
+                html += '</tr>';
+            });
+            $('#data-container').html(html);
+            // 初始化分页组件
+            var pagination = new Pagination(document.getElementById('pagination'), {
+                currentPage: currentPage,
+                totalPage: totalPage,
+                callback: function(page) {
+                    paginateData(page, pageSize);
+                }
+            });
+
+            // 首次加载第一页数据
+            paginateData(currentPage, pageSize);
+
+            // 搜索功能
+            $('#search-form').on('submit', function() {
+                var year = $('.search-input').val();
+                $.getJSON('/search', { year: year }, function(response) {
+                    renderTable(response.data);
+                    totalPage = Math.ceil(response.total / pageSize);
+                    pagination.setPage(1, totalPage); // 重置分页到第一页
+                });
+                return false; // 阻止表单默认提交行为
+            });
+        }});
+</script>
+</body>
+
+</html>

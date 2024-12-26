@@ -3,14 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>数据可视化</title>
+    <title>数据可视化demo</title>
 
 
     <link href="../static/styles/common.css" rel="stylesheet">
     <link href="../static/styles/bootstrap.min.css" rel="stylesheet">
     <link href="../static/styles/bootstrap-table.css" rel="stylesheet">
     <link href="../static/styles/pagination.css" rel="stylesheet">
-    <script src="../static/scripts/Plugin/jquery-3.3.1.min.js"></script>
+    <script src="{{ url_for('static', filename='scripts/Plugin/jquery-3.3.1.min.js') }}"></script>
     <script src="../static/scripts/Plugin/echarts.min.js"></script>
 
     <script src="../static/scripts/common.js"></script>
@@ -21,11 +21,20 @@
 </head>
 
 <body class="body">
-<div >
+<!--顶部-->
+
+<!-- <div class="canvas" style="opacity: .2">
+    <iframe frameborder="0" src="js/index.html" style="width: 100%; height: 100%" z-index: 1;></iframe>
+</div> -->
+
+<!--内容部分-->
+
+<div>
     <form class="search-container">
         <input type="text" class="search-input" placeholder="搜索..." name="year">
         <button class="search-button" type="submit">搜索</button>
-    </form>   </div>
+    </form>
+</div>
 
 <div class="con left" style="width: 100%; height: 100vh; margin-left: 0%;margin-bottom: 0px;">
 
@@ -36,7 +45,7 @@
             <a href="part1">漂浮模型预测</a>
             <a href="part3">搜索数据年份</a>
         </div>
-        <div class="sidebar-toggle" id="sidebar-toggle" >☰ 全部功能</div>
+        <div class="sidebar-toggle" id="sidebar-toggle">☰ 全部功能</div>
 
         <script>
             document.getElementById('sidebar-toggle').addEventListener('mouseenter', function () {
@@ -49,7 +58,7 @@
                 document.getElementById('sidebar-toggle').classList.remove('hidden');
             });
         </script>
-        <h1 >历史数据</h1>
+        <h1>历史数据</h1>
 
     </div>
 
@@ -81,7 +90,7 @@
     </div>
 </div>
 
-<script th:inline="javascript">
+<script>
     // 定义一个立即执行函数，传入 jQuery 对象、window 对象、document 对象
     !function (t, a, e, i) {
         // 定义分页组件的构造函数
@@ -176,11 +185,7 @@
             return "string" == typeof t ? this.data("pagination")[t](a, e) : this; // 支持通过字符串调用实例方法
         };
     }(jQuery, window, document);
-    /*<![CDATA[*/
-    let data = /*[[${water_list}]]*/ [];
-    console.log(data)
-    // 数据示例
-
+    let data = [];
 
     // 分页函数
     function paginateData(data, page, pageSize) {
@@ -201,8 +206,6 @@
             html += '<td>' + item.flow_rate + '</td>';
             html += '<td>' + item.water_temperature + '</td>';
             html += '<td>' + item.number + '</td>';
-
-
             html += '</tr>';
         });
         $('#data-container').html(html);
@@ -222,22 +225,42 @@
     // 初始化分页组件
     $(document).ready(function () {
         var pageSize = 15; // 每页显示的数据条数
-        var totalPage = Math.ceil(data.length / pageSize); // 总页数
+        var totalPage = 0; // 总页数
         var currentPage = 1; // 当前页码
 
-        // 初始化分页组件
-        $('#pagination').pagination({
-            totalPage: totalPage,
-            callback: function (page) {
-                currentPage = page;
-                var paginatedData = paginateData(data, currentPage, pageSize);
-                renderTable(paginatedData);
-            }
-        });
+        // 从后端获取数据
+        function fetchData(page) {
+            $.getJSON('/paginate', {page: page}, function (response) {
+                data = response.data;
+                totalPage = Math.ceil(response.total / pageSize);
+                renderTable(data);
+                if ($('#pagination').data('pagination')) {
+                    $('#pagination').pagination('setPage', page, totalPage);
+                } else {
+                    $('#pagination').pagination({
+                        totalPage: totalPage,
+                        callback: function (page) {
+                            fetchData(page);
+                        }
+                    });
+                }
+            });
+        }
 
         // 初始加载第一页数据
-        var initialData = paginateData(data, currentPage, pageSize);
-        renderTable(initialData);
+        fetchData(currentPage);
+// 搜索功能
+        $('#search-form').on('submit', function () {
+            var year = $('.search-input').val();
+            $.getJSON('/search', {year: year}, function (response) {
+                data = response.data;
+                totalPage = Math.ceil(response.total / pageSize);
+                currentPage = 1; // 重置分页到第一页
+                renderTable(data);
+                $('#pagination').pagination('setPage', currentPage, totalPage);
+            });
+            return false; // 阻止表单默认提交行为
+        });
     });
 </script>
 </body>

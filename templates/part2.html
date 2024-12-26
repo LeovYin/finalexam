@@ -177,16 +177,16 @@
     </ul>
 </div>
 <div class="back"></div>
-<script th:inline="javascript" >
+<script>
     $(window).load(function () {
         $(".loading").fadeOut()
     });
 
     $(function () {
         echarts_21({{ day|tojson }},{{ number|tojson }},{{ level|tojson }});
-        echarts_22();
-        echarts_23();
-        echarts_4();
+        echarts_22({{ day|tojson }},{{ number|tojson }},{{ traffic|tojson }});
+        echarts_23({{ day|tojson }},{{ number|tojson }},{{ temperature|tojson }});
+        echarts_4({{ day|tojson }},{{ level|tojson }},{{ traffic|tojson }},{{ flow|tojson }},{{ temperature|tojson }});
 
         function echarts_21(dayData,numberData,levelData) {
             // 基于准备好的dom，初始化echarts实例
@@ -296,7 +296,7 @@
 
 
         }
-        function echarts_22() {
+        function echarts_22(dayData,numberData,trafficData) {
             // 基于准备好的dom，初始化echarts实例
             var myChart = echarts.init(document.getElementById('echart22'));
 
@@ -315,7 +315,8 @@
                 },
                 xAxis: [{
                     type: 'category',
-                    data: /*[[${day}]]*/  ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                    {#data: /*[[${day}]]*/  ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],#}
+                    data:dayData,
                     axisLine: {
                         show: true,
                         lineStyle: {
@@ -370,7 +371,8 @@
                 series: [
                     {
                         type: 'line',
-                        data:/*[[${number}]]*/ [100, 86, 30, 72, 72, 51, 10, 86, 13, 72],
+                        {#data:/*[[${number}]]*/ [100, 86, 30, 72, 72, 51, 10, 86, 13, 72],#}
+                        data:numberData,
                         itemStyle: {
                             normal: {
                                 color: '#37a3ff',
@@ -381,7 +383,8 @@
                     },
                     {
                         type: 'line',
-                        data:/*[[${traffic}]]*/ [50, 60, 70, 80, 90, 100, 110, 120, 130, 140], // 添加第二条线的数据
+                        {#data:/*[[${traffic}]]*/ [50, 60, 70, 80, 90, 100, 110, 120, 130, 140], // 添加第二条线的数据#}
+                        data:trafficData,
                         itemStyle: {
                             normal: {
                                 color: '#ff37a3', // 第二条线的颜色
@@ -400,7 +403,7 @@
 
         }
 
-        function echarts_23() {
+        function echarts_23(dayData,numberData,temperatureData) {
             // 基于准备好的dom，初始化echarts实例
             var myChart = echarts.init(document.getElementById('feng01'));
 
@@ -419,7 +422,8 @@
                 },
                 xAxis: [{
                     type: 'category',
-                    data: /*[[${day}]]*/ ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                    {#data: /*[[${day}]]*/ ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],#}
+                    data:dayData,
                     axisLine: {
                         show: true,
                         lineStyle: {
@@ -474,7 +478,8 @@
                 series: [
                     {
                         type: 'line',
-                        data: /*[[${number}]]*/ [100, 86, 30, 72, 72, 51, 10, 86, 13, 72],
+                        {#data: /*[[${number}]]*/ [100, 86, 30, 72, 72, 51, 10, 86, 13, 72],#}
+                        data:numberData,
                         itemStyle: {
                             normal: {
                                 color: '#37a3ff',
@@ -485,7 +490,8 @@
                     },
                     {
                         type: 'line',
-                        data: /*[[${temperature}]]*/ [50, 60, 70, 80, 90, 100, 110, 120, 130, 140], // 添加第二条线的数据
+                        {#data: /*[[${temperature}]]*/ [50, 60, 70, 80, 90, 100, 110, 120, 130, 140], // 添加第二条线的数据#}
+                        data:temperatureData,
                         itemStyle: {
                             normal: {
                                 color: '#ff37a3', // 第二条线的颜色
@@ -504,7 +510,7 @@
 
         }
 
-        function echarts_4() {
+        function echarts_4(dayData,levelData,numberData,trafficData,flowData) {
             // 基于准备好的dom，初始化echarts实例
             var myChart = echarts.init(document.getElementById('echart4'));
 
@@ -519,7 +525,7 @@
                     "left": "50",
                 },
                 legend: {
-                    data: ['水位', '流量', '流速', '水温'],
+                    data: ['水位', '流量', '流速', '鱼卵数'],
                     right: 'center', width: '100%',
                     textStyle: {
                         color: "rgba(255,255,255,.5)"
@@ -533,7 +539,8 @@
                 "xAxis": [
                     {
                         "type": "category",
-                        data: /*[[${day}]]*/ ['2016', '2017', '2018', '2019'],
+                        {#data: /*[[${day}]]*/ ['2016', '2017', '2018', '2019'],#}
+                        data:dayData,
                         axisLine: { show: false, },
                         axisLabel: {
                             textStyle: {
@@ -586,7 +593,8 @@
                     {
                         "name": "水位",
                         "type": "bar",
-                        "data":/*[[${level}]]*/  [36.6, 38.80, 40.84, 41.60],
+                        {#"data":/*[[${level}]]*/  [36.6, 38.80, 40.84, 41.60],#}
+                        data:levelData,
                         "barWidth": "10%",
                         "itemStyle": {
                             "normal": {
@@ -605,7 +613,8 @@
                     {
                         "name": "流量",
                         "type": "bar",
-                        "data": /*[[${traffic}]]*/ [14.8, 14.1, 15, 16.30],
+                        {#"data": /*[[${traffic}]]*/ [14.8, 14.1, 15, 16.30],#}
+                        data:trafficData,
                         "barWidth": "10%",
                         "itemStyle": {
                             "normal": {
@@ -624,7 +633,8 @@
                     {
                         "name": "流速",
                         "type": "bar",
-                        "data": /*[[${flow}]]*/  [9.2, 9.1, 9.85, 8.9],
+                        {#"data": /*[[${flow}]]*/  [9.2, 9.1, 9.85, 8.9],#}
+                        data:flowData,
                         "barWidth": "10%",
                         "itemStyle": {
                             "normal": {
@@ -642,11 +652,12 @@
                     }
                     ,
                     {
-                        "name": "水温",
+                        "name": "鱼卵数",
                         "type": "line",
                         "yAxisIndex": 1,
 
-                        "data":/*[[${temperature}]]*/ [3, 1, 5, 2.3],
+                        {#"data":/*[[${temperature}]]*/ [3, 1, 5, 2.3],#}
+                        data: numberData,
                         lineStyle: {
                             normal: {
                                 width: 2

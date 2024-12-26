@@ -62,6 +62,13 @@ def get_water():
         cursor.close()
 
 
+def get_water_values():
+    water_list = get_water()
+    # 过滤掉任何属性为 None 或空字符串的记录
+    water_list_value = [item for item in water_list if all(item.values())]
+    return water_list_value
+
+
 def search_water(year):
     # 使用 LIKE 语句进行模糊搜索，直接在参数中拼接通配符
     sql = "SELECT * FROM water WHERE year LIKE %s"
@@ -80,13 +87,13 @@ def search_water(year):
 
 
 def getTotalYear():
-    alist = get_water()
+    alist = get_water_values()
     count = 1 - (int(alist[0]['year'][:4]) - int(alist[-1]['year'][:4]))
     return count
 
 
 def get_day():
-    water_list = get_water()
+    water_list = get_water_values()
     year_twelve = []
     end_index = 6 if len(water_list) > 6 else len(water_list)
     for i in range(end_index):
@@ -95,7 +102,7 @@ def get_day():
 
 
 def get_year():
-    water_list = get_water()
+    water_list = get_water_values()
     year_twelve = []
     end_index = 6 if len(water_list) > 6 else len(water_list)
     for i in range(end_index):
@@ -104,7 +111,7 @@ def get_year():
 
 
 def get_number():
-    water_list = get_water()
+    water_list = get_water_values()
     number = []
     end_index = 6 if len(water_list) > 6 else len(water_list)
     for i in range(end_index):
@@ -113,7 +120,7 @@ def get_number():
 
 
 def get_traffic():
-    water_list = get_water()
+    water_list = get_water_values()
     traffic = []
     end_index = 6 if len(water_list) > 6 else len(water_list)
     for i in range(end_index):
@@ -122,7 +129,7 @@ def get_traffic():
 
 
 def get_temperature():
-    water_list = get_water()
+    water_list = get_water_values()
     temperature = []
     end_index = 6 if len(water_list) > 6 else len(water_list)
     for i in range(end_index):
@@ -131,7 +138,7 @@ def get_temperature():
 
 
 def get_water_level():
-    water_list = get_water()
+    water_list = get_water_values()
     water_level = []
     end_index = 6 if len(water_list) > 6 else len(water_list)
     for i in range(end_index):
@@ -141,10 +148,9 @@ def get_water_level():
 
 
 def get_water_flow():
-    water_list = get_water()
+    water_list = get_water_values()
     water_flow = []
     end_index = 6 if len(water_list) > 6 else len(water_list)
     for i in range(end_index):
         water_flow.append(water_list[-1 - i]['flow_rate'])
     return water_flow
-print(get_number())
